@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components";
+import { FormHTMLAttributes } from "react";
 
-const Form = styled.form`
+interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
+  type?: "modal" | "default";
+}
+const Form = styled.form<FormProps>`
   ${(props) =>
     props.type !== "modal" &&
     css`
