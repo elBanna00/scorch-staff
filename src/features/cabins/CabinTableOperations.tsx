@@ -1,6 +1,6 @@
 import TableOperations from "../../ui/TableOperations.tsx";
 import Filter from "../../ui/Filter";
-// import SortBy from "../../ui/SortBy";
+import SortBy from "../../ui/SortBy";
 
 function CabinTableOperations() {
   return (
@@ -14,7 +14,7 @@ function CabinTableOperations() {
         ]}
       />
 
-      {/* <SortBy
+      <SortBy
         options={[
           { value: "name-asc", label: "Sort by name (A-Z)" },
           { value: "name-desc", label: "Sort by name (Z-A)" },
@@ -23,7 +23,7 @@ function CabinTableOperations() {
           { value: "maxCapacity-asc", label: "Sort by capacity (low first)" },
           { value: "maxCapacity-desc", label: "Sort by capacity (high first)" },
         ]}
-      /> */}
+      />
     </TableOperations>
   );
 }
