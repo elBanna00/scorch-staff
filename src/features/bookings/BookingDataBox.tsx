@@ -11,6 +11,7 @@ import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
 
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import { Database } from "../../../types/supabase";
 
 const StyledBookingDataBox = styled.section`
   /* Box */
@@ -67,8 +68,10 @@ const Guest = styled.div`
     color: var(--color-grey-700);
   }
 `;
-
-const Price = styled.div`
+interface PriceProbs {
+  isPaid?: boolean;
+}
+const Price = styled.div<PriceProbs>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -100,9 +103,41 @@ const Footer = styled.footer`
   color: var(--color-grey-500);
   text-align: right;
 `;
+// export interface BookingType {
+//   created_at: string;
+//   startDate: string | null;
+//   endDate: string | null;
+//   numNights: number | null;
+//   numGuests: number | null;
+//   cabinPrice: number | null;
+//   extrasPrice: number | null;
+//   totalPrice: number | null;
+//   hasBreakfast: boolean | null;
+//   observations: string | null;
+//   isPaid: boolean | null;
+//   guests: {
+//     fullName: string;
+//     email: string;
+//     country: string;
+//     countryFlag: string;
+//     nationalID;
+//   };
+//   cabins: { name: cabinName };
+// }
+type BookingRow = Database["public"]["Tables"]["bookings"]["Row"];
+type GuestRow = Database["public"]["Tables"]["guests"]["Row"];
+type CabinRow = Database["public"]["Tables"]["cabins"]["Row"];
+
+export type BookingWithDetails = Omit<BookingRow, "guestId" | "cabinId"> & {
+  guests: Pick<
+    GuestRow,
+    "fullName" | "email" | "nationality" | "countryFlag" | "nationalID"
+  >;
+  cabins: Pick<CabinRow, "name">;
+};
 
 // A purely presentational component
-function BookingDataBox({ booking }) {
+function BookingDataBox({ booking }: { booking: BookingWithDetails }) {
   const {
     created_at,
     startDate,
@@ -115,7 +150,13 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
+    guests: {
+      fullName: guestName,
+      email,
+      nationality: country,
+      countryFlag,
+      nationalID,
+    },
     cabins: { name: cabinName },
   } = booking;
 
@@ -130,11 +171,11 @@ function BookingDataBox({ booking }) {
         </div>
 
         <p>
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
-          {isToday(new Date(startDate))
+          {format(new Date(startDate!), "EEE, MMM dd yyyy")} (
+          {isToday(new Date(startDate!))
             ? "Today"
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+            : formatDistanceFromNow(startDate!)}
+          ) &mdash; {format(new Date(endDate!), "EEE, MMM dd yyyy")}
         </p>
       </Header>
 
@@ -142,7 +183,7 @@ function BookingDataBox({ booking }) {
         <Guest>
           {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
           <p>
-            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
+            {guestName} {numGuests! > 1 ? `+ ${numGuests! - 1} guests` : ""}
           </p>
           <span>&bull;</span>
           <p>{email}</p>
@@ -163,13 +204,13 @@ function BookingDataBox({ booking }) {
           {hasBreakfast ? "Yes" : "No"}
         </DataItem>
 
-        <Price isPaid={isPaid}>
+        <Price isPaid={isPaid!}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
-            {formatCurrency(totalPrice)}
+            {formatCurrency(totalPrice!)}
 
             {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
+              ` (${formatCurrency(cabinPrice!)} cabin + ${formatCurrency(
+                extrasPrice!
               )} breakfast)`}
           </DataItem>
 
