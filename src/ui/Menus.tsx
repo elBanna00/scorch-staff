@@ -150,6 +150,7 @@ function Button({
   children: ReactNode;
   icon: ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   const { close } = useMenusContext();
 

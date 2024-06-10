@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import styled, { css } from "styled-components";
 
 const sizes = {
@@ -51,6 +52,7 @@ const variations = {
 interface ButtonProps {
   size?: keyof typeof sizes;
   variation?: keyof typeof variations;
+  icon?: ReactElement;
 }
 
 const Button = styled.button<ButtonProps>`
