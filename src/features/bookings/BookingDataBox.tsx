@@ -124,7 +124,7 @@ const Footer = styled.footer`
 //   };
 //   cabins: { name: cabinName };
 // }
-type BookingRow = Database["public"]["Tables"]["bookings"]["Row"];
+export type BookingRow = Database["public"]["Tables"]["bookings"]["Row"];
 type GuestRow = Database["public"]["Tables"]["guests"]["Row"];
 type CabinRow = Database["public"]["Tables"]["cabins"]["Row"];
 
@@ -135,7 +135,44 @@ export type BookingWithDetails = Omit<BookingRow, "guestId" | "cabinId"> & {
   >;
   cabins: Pick<CabinRow, "name">;
 };
-
+// export type BookingWithDetails =
+//   | {
+//       cabinId: number | null;
+//       cabinPrice: number | null;
+//       created_at: string;
+//       endDate: string | null;
+//       extrasPrice: number | null;
+//       guestId: number | null;
+//       hasBreakfast: boolean | null;
+//       id: number;
+//       isPaid: boolean | null;
+//       numGuests: number | null;
+//       numNights: number | null;
+//       observations: string | null;
+//       startDate: string | null;
+//       status: string | null;
+//       totalPrice: number | null;
+//       cabins: {
+//         created_at: string;
+//         description: string | null;
+//         discount: number | null;
+//         id: number;
+//         image: string | null;
+//         maxCapacity: number | null;
+//         name: string | null;
+//         regularPrice: number | null;
+//       } | null;
+//       guests: {
+//         countryFlag: string | null;
+//         created_at: string;
+//         email: string | null;
+//         fullName: string | null;
+//         id: number;
+//         nationalID: string | null;
+//         nationality: string | null;
+//       } | null;
+//     }
+//   | undefined;
 // A purely presentational component
 function BookingDataBox({ booking }: { booking: BookingWithDetails }) {
   const {
