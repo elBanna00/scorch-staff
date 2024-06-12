@@ -28,7 +28,7 @@ interface ChartBooking {
   extrasPrice: number | null;
 }
 interface SalesChartProps {
-  bookings: [] | null;
+  bookings: ChartBooking[] | null;
   numDays: number;
 }
 function SalesChart({ bookings, numDays }: SalesChartProps) {
