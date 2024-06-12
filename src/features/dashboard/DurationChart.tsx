@@ -200,9 +200,9 @@ function DurationChart({ confirmedStays }: StaysType) {
           <Legend
             verticalAlign="middle"
             align="right"
-            width={30}
+            width={50}
             layout="vertical"
-            iconSize={15}
+            iconSize={14}
             iconType="circle"
           />
         </PieChart>
