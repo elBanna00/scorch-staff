@@ -38,7 +38,7 @@ export async function getBookings({ filter, sortBy, page }: getBookingsProps) {
   // FILTER
 
   const method = filter?.method || "eq"; // Default to "eq" if method is not provided
-  if (filter) query = query[method](filter.field, filter.value);
+  if (filter) query = (query[method] as any)(filter.field, filter.value);
   // SORT
   if (sortBy)
     query = query.order(sortBy.field, {

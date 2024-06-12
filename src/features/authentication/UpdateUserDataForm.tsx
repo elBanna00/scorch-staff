@@ -65,7 +65,7 @@ function UpdateUserDataForm() {
         <FileInput
           id="avatar"
           accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
+          onChange={(e) => setAvatar(e.target.files![0] as any)}
           disabled={isUpdating}
         />
       </FormRow>

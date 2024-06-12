@@ -22,15 +22,13 @@ const StyledSalesChart = styled(DashboardBox)`
     stroke: var(--color-grey-300);
   }
 `;
-
+interface ChartBooking {
+  created_at: string;
+  totalPrice: number | null;
+  extrasPrice: number | null;
+}
 interface SalesChartProps {
-  bookings:
-    | {
-        created_at: string;
-        totalPrice: number | null;
-        extrasPrice: number | null;
-      }[]
-    | null;
+  bookings: [] | null;
   numDays: number;
 }
 function SalesChart({ bookings, numDays }: SalesChartProps) {
@@ -44,12 +42,16 @@ function SalesChart({ bookings, numDays }: SalesChartProps) {
   const data = allDates.map((date) => {
     return {
       label: format(date, "MMM dd"),
-      totalSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.totalPrice!, 0),
-      extrasSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
-        .reduce((acc, cur) => acc + cur.extrasPrice!, 0),
+      totalSales: (bookings as any)
+        .filter((booking: ChartBooking) =>
+          isSameDay(date, new Date(booking.created_at))
+        )
+        .reduce((acc: any, cur: any) => acc + cur.totalPrice!, 0),
+      extrasSales: (bookings as any)
+        .filter((booking: ChartBooking) =>
+          isSameDay(date, new Date(booking.created_at))
+        )
+        .reduce((acc: any, cur: any) => acc + cur.extrasPrice!, 0),
     };
   });
 
